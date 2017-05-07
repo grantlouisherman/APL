@@ -40,3 +40,54 @@ describe('Testing fromFunctionToPromise', function () {
     });
 
 })
+
+describe('Testing fromArrayToPromiseAll', function () {
+  let classInvocation;
+  let arrayOfFunctions = [];
+
+  beforeEach(function () {
+    classInvocation = new PromiseConverter();
+      let testFnParameters = function (a,b) {
+          let c = 5;
+          return (a*b)*c;
+    }
+    let testFnNoParameters = function () {
+      return "TEST TEST"
+    }
+
+    var anotherFunction = function (twodigit) {
+      let num = twodigit.toString().split("");
+      num[0] = num[1]
+      num[1] = 2
+      return parseInt(num.join(""))
+    }
+
+    let finalFunction = function () {
+      return "hello world".split("").join("+")
+    }
+
+    arrayOfFunctions.push(testFnParameters(1,2));
+    arrayOfFunctions.push(testFnNoParameters);
+    arrayOfFunctions.push(anotherFunction(21));
+    arrayOfFunctions.push(finalFunction);
+  })
+  it('fromArrayToPromiseAll returns a promise object', function () {
+      expect(typeof classInvocation.fromArrayToPromiseAll(arrayOfFunctions)).to.equal("object");
+    });
+
+    it('fromArrayToPromiseAll returns a promise object', function () {
+      classInvocation.fromArrayToPromiseAll(arrayOfFunctions).then(function (values) {
+            expect(values[0] ).to.equal(10);
+            expect(values[1] ).to.equal("TEST TEST");
+            expect(values[2] ).to.equal(12);
+            expect(values[3] ).to.equal('h+e+l+l+o+ +w+o+r+l+d');
+
+
+      })
+      
+    });
+
+
+  
+
+})
