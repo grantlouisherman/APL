@@ -30,14 +30,13 @@ class PromiseConverter {
 								resolve(fn);
 		 			}))
 				}
-			}
-		})
-
-		return Promise.all(Array_Of_Promises)
+			})
+			return Promise.all(Array_Of_Promises)
+		}
 
 	}
 
+module.exports = PromiseConverter;
 
 
-}
 
