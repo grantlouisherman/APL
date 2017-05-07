@@ -19,17 +19,19 @@ class PromiseConverter {
 
 	fromArrayToPromiseAll (Array_Of_Functions){
 		let Array_Of_Promises = []
-		for(let i=0;i<Array_Of_Functions.length;i++){
-			if(typeof Array_Of_Functions[i] === "function"){
-				Array_Of_Promises.push( new Promise(function (resolve,reject) {
-								resolve(Array_Of_Functions[i]());
-				}))
-			}else{
-				Array_Of_Promises.push( new Promise(function (resolve,reject) {
-								resolve(Array_Of_Functions[i]);
-				}))
+		Array_Of_Functions.forEach((fn,index) => {
+			if(typeof fn === "function"){
+					Array_Of_Promises.push( new Promise(function (resolve,reject) {
+								resolve(fn());
+		 			}))
+				}
+			else{
+					Array_Of_Promises.push( new Promise(function (resolve,reject) {
+								resolve(fn);
+		 			}))
+				}
 			}
-		}
+		})
 
 		return Promise.all(Array_Of_Promises)
 
